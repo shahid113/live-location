@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Live Location Tracker</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      padding: 1rem;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+    }
+    .info {
+      margin-top: 1rem;
+      word-wrap: break-word;
+    }
+    .coords {
+      font-weight: bold;
+      font-size: 1.1em;
+      color: #007bff;
+      cursor: pointer;
+    }
+    .map-link {
+      display: inline-block;
+      margin-top: 10px;
+      background: #28a745;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Live Location Tracker</h2>
+    <div id="info" class="info">Waiting for location...</div>
+  </div>
+
+  <script>
+    const socket = io();
+    const info = document.getElementById('info');
+
+    socket.on('update-location', (data) => {
+      const lat = data.lat;
+      const lng = data.lng;
+      const coordText = `${lat}, ${lng}`;
+      const mapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+
+      info.innerHTML = `
+        <div><strong>Latitude:</strong> ${lat}</div>
+        <div><strong>Longitude:</strong> ${lng}</div>
+        <div><strong>Accuracy:</strong> ${data.accuracy} meters</div>
+        <div><strong>Time:</strong> ${new Date(data.time).toLocaleString()}</div>
+        <div class="coords" onclick="copyCoords('${coordText}')">
+          📋 Tap to copy: ${coordText}
+        </div>
+        <a class="map-link" href="${mapsLink}" target="_blank">📍 Open in Google Maps</a>
+      `;
+    });
+
+    function copyCoords(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Coordinates copied to clipboard!');
+      });
+    }
+  </script>
+</body>
+</html>
