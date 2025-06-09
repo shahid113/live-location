@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Share Your Location</title>
+  <title>Sharing Your Location...</title>
   <style>
     body {
       font-family: sans-serif;
@@ -15,26 +15,39 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      text-align: center;
     }
-    button {
-      background-color: #007bff;
-      color: white;
-      padding: 12px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+    .spinner {
       margin-top: 20px;
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #007bff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
     }
-    button:hover {
-      background-color: #0056b3;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .message {
+      margin-top: 20px;
+      color: #333;
     }
   </style>
   <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-  <h2>Tap to Share Your Live Location</h2>
-  <button onclick="sendLocation()">Share My Location</button>
+  <h2>Sharing your live location...</h2>
+  <div class="spinner"></div>
+  <div class="message">Please allow location access if prompted.</div>
+
   <script src="script.js"></script>
+  <script>
+    // Automatically call sendLocation() as soon as page loads
+    window.addEventListener('load', () => {
+      sendLocation();
+    });
+  </script>
 </body>
 </html>
