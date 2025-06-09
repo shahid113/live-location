@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -52,32 +52,43 @@
   </div>
 
   <script>
-    const socket = io();
-    const info = document.getElementById('info');
+  const socket = io();
+  const info = document.getElementById('info');
 
-    socket.on('update-location', (data) => {
-      const lat = data.lat;
-      const lng = data.lng;
-      const coordText = `${lat}, ${lng}`;
-      const mapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+  socket.on('update-location', (data) => {
+    const lat = data.lat;
+    const lng = data.lng;
+    const coordText = `${lat}, ${lng}`;
+    const mapsLink = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
 
-      info.innerHTML = `
-        <div><strong>Latitude:</strong> ${lat}</div>
-        <div><strong>Longitude:</strong> ${lng}</div>
-        <div><strong>Accuracy:</strong> ${data.accuracy} meters</div>
-        <div><strong>Time:</strong> ${new Date(data.time).toLocaleString()}</div>
-        <div class="coords" onclick="copyCoords('${coordText}')">
-          📋 Tap to copy: ${coordText}
+    let selfieHtml = '';
+    if (data.selfie) {
+      selfieHtml = `
+        <div style="margin-top:16px;">
+          <strong>Selfie:</strong><br>
+          <img src="${data.selfie}" alt="Selfie" style="max-width:100%;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.15);margin-top:8px;">
         </div>
-        <a class="map-link" href="${mapsLink}" target="_blank">📍 Open in Google Maps</a>
       `;
-    });
-
-    function copyCoords(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert('Coordinates copied to clipboard!');
-      });
     }
-  </script>
+
+    info.innerHTML = `
+      <div><strong>Latitude:</strong> ${lat}</div>
+      <div><strong>Longitude:</strong> ${lng}</div>
+      <div><strong>Accuracy:</strong> ${data.accuracy} meters</div>
+      <div><strong>Time:</strong> ${new Date(data.time).toLocaleString()}</div>
+      <div class="coords" onclick="copyCoords('${coordText}')">
+        📋 Tap to copy: ${coordText}
+      </div>
+      <a class="map-link" href="${mapsLink}" target="_blank">📍 Open in Google Maps</a>
+      ${selfieHtml}
+    `;
+  });
+
+  function copyCoords(text) {
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Coordinates copied to clipboard!');
+    });
+  }
+</script>
 </body>
-</html>
+</html> -->
