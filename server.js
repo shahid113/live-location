@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 });
 
 // Location sharing page
-app.get('/track', (req, res) => {
+app.get('/connect', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/location.html'));
 });
 
